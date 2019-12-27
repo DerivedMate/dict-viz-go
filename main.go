@@ -11,7 +11,6 @@ import (
 	"strconv"
 
 	"github.com/fogleman/gg"
-	"github.com/lucasb-eyer/go-colorful"
 )
 
 func Length(arr *[][]string, i int) int {
@@ -126,7 +125,7 @@ func Draw() {
 	err = j.Decode(&entries)
 	HandleError(err)
 
-	s := 4000.0
+	s := 6500.0
 	w := s
 	h := s
 	c := gg.NewContext(int(w), int(h))
@@ -143,10 +142,10 @@ func Draw() {
 	i := 0
 	// r0, r1 := 165.0, 220.0
 	// r0, r1 := 140.0, 200.0
-	r0, r1 := 0.0, 360.0
+	// r0, r1 := 0.0, 300.0
 	// s0, s1 := 0.9, 1.0
-	a0, a1 := 180.0, 250.0
-	dr := r1 - r0
+	a0, a1 := 0.0, 180.0
+	// dr := r1 - r0
 	// kr := 0.8
 
 	for k, v := range entries {
@@ -157,17 +156,25 @@ func Draw() {
 		c.Push()
 		c.RotateAbout(th, x0, y0)
 		c.SetColor(color.White)
-		c.DrawString(k, x0, y0)
+		c.DrawString(fmt.Sprintf(" %v", k), x0, y0)
 		c.Pop()
 		for j, cos := range v {
 			k1 := float64(i + j + 1)
 			x1 := r * math.Cos(dth*k1)
 			y1 := r * math.Sin(dth*k1)
 
-			red, g, b, _ := colorful.Hsl(cos*dr+r0, 1, 0.5).RGBA()
-			c.SetColor(color.RGBA{R: uint8(red), G: uint8(g), B: uint8(b), A: uint8(cos*(a1-a0) + a0)})
-			// c.QuadraticTo(x0, y0, x1, y1)
-			c.CubicTo(x0, y0, 0, 0, x1, y1)
+			// red, g, b, _ := colorful.Hsl(cos*dr+r0, 1, 0.5).RGBA()
+			co := uint8(255.0 * cos)
+			red, g, b := co, co, co
+			c.SetColor(color.RGBA{R: red, G: g, B: b, A: uint8(cos*(a1-a0) + a0)})
+
+			phi := (k1 + k0) * dth / 2.0
+			x2, y2 := r*math.Cos(phi), r*math.Sin(phi)
+			c.CubicTo(
+				x0, y0,
+				x2, y2,
+				x1, y1,
+			)
 			// c.DrawLine(x0, y0, x1, y1)
 			c.Stroke()
 		}
