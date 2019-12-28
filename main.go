@@ -187,22 +187,28 @@ func Draw() {
 }
 
 func main() {
-	f := false
-	if len(os.Args) > 1 {
-		switch os.Args[1] {
-		case "gen", "Gen", "0":
-			GenRecords()
-		case "draw", "Draw", "1":
-			Draw()
-		default:
-			fmt.Printf("Unknown command \"%v\"", os.Args[1])
-			f = true
+	VectorizationMain()
+	/*
+		@TODO:
+		1. Try sorted runs: by length, alphabetically
+	*/
+	/*
+		f := false
+		if len(os.Args) > 1 {
+			switch os.Args[1] {
+			case "gen", "Gen", "0":
+				GenRecords()
+			case "draw", "Draw", "1":
+				Draw()
+			default:
+				fmt.Printf("Unknown command \"%v\"", os.Args[1])
+				f = true
+			}
 		}
-	}
-	if f || len(os.Args) == 1 {
-		fmt.Println("Usage: go run . <mode> <offset> <count>\n  mode: gen/draw\n  offset: the number of words to skip\n  count: the number of words to take")
-	}
-
+		if f || len(os.Args) == 1 {
+			fmt.Println("Usage: go run . <mode> <offset> <count>\n  mode: gen/draw\n  offset: the number of words to skip\n  count: the number of words to take")
+		}
+	*/
 }
 
 /*

@@ -37,3 +37,21 @@ func CosStrings(a, b string) float64 {
 
 	return CosVecs(vecA, vecB)
 }
+
+func CosStringsAlphabet(a, b string) float64 {
+	alphabet := "a &ecplfortiàmdvsh-,nk/gb1.y()523u4wjxqçíz'é’èê7!ôâîûöäáñ09?86ïùãńü"
+	a, b = strings.ToLower(a), strings.ToLower(b)
+	aLetters, bLetters := strings.Split(a, ""), strings.Split(b, "")
+
+	aVec, bVec := make([]int, 0), make([]int, 0)
+
+	for _, p := range alphabet {
+		l := string(p)
+		aSum, bSum := Count(aLetters, l), Count(bLetters, l)
+
+		aVec = append(aVec, aSum)
+		bVec = append(bVec, bSum)
+	}
+
+	return CosVecs(aVec, bVec)
+}
